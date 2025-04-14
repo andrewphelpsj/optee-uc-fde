@@ -30,13 +30,13 @@
  * Key handle is randomply generated at key derivation
  * - TEE_PARAM_TYPE_MEMREF_INPUT
  *    params[0].memref.buffer: plain key buffer
- *    params[0].memref.size: lenght of the buffer
+ *    params[0].memref.size: length of the buffer
  * - TEE_PARAM_TYPE_MEMREF_OUTPUT
  *    params[1].memref.buffer: returned key handle
- *    params[1].memref.size: lenght of the buffer
+ *    params[1].memref.size: length of the buffer
  * - TEE_PARAM_TYPE_MEMREF_OUTPUT
  *    params[2].memref.buffer: returned encrypted key
- *    params[2].memref.size: lenght of the buffer
+ *    params[2].memref.size: length of the buffer
  */
 #define TA_CMD_KEY_ENCRYPT            1U
 
@@ -44,13 +44,13 @@
  * TA_CMD_KEY_DECRYPT have 3 parameters
  * - TEE_PARAM_TYPE_MEMREF_INPUT
  *    params[0].memref.buffer:  encrypted key buffer
- *    params[0].memref.size: lenght of the string
+ *    params[0].memref.size: length of the string
  * - TEE_PARAM_TYPE_MEMREF_INPUT
  *    params[1].memref.buffer: key handle
- *    params[1].memref.size: lenght of the buffer
+ *    params[1].memref.size: length of the buffer
  * - TEE_PARAM_TYPE_MEMREF_OUTPUT
  *    params[2].memref.buffer: returned decrypted key buffer
- *    params[2].memref.size: lenght of the buffer
+ *    params[2].memref.size: length of the buffer
  */
 #define TA_CMD_KEY_DECRYPT            2U
 
@@ -73,7 +73,7 @@
  * Generates rand data of given length
  * - TEE_PARAM_TYPE_MEMREF_OUTPUT
  *    params[1].memref.buffer: buffer to be filled with random data
- *    params[1].memref.size: lenght of the buffer
+ *    params[1].memref.size: length of the buffer
  */
 #define TA_CMD_GEN_RANDOM             5U
 
