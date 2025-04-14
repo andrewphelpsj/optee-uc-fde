@@ -1,6 +1,12 @@
 /* SPDX-License-Identifier: BSD-2-Clause
  *
- * Copyright 2023, Canonical Ltd.
+ * Copyright 2025, Canonical Ltd.
+ */
+
+/*
+ * This file lives in https://github.com/canonical/optee-uc-fde and an identical
+ * copy is kept in https://github.com/canonica/snapd. Updating the original file
+ * requires that the copy in the snapd repo is also updated.
  */
 
 #ifndef FDE_KEY_HANDLER_TA_TYPE_H_
@@ -70,6 +76,14 @@
  *    params[1].memref.size: lenght of the buffer
  */
 #define TA_CMD_GEN_RANDOM             5U
+
+/*
+ * TA_CMD_VERSION reports the version of the TA
+ * - TEE_PARAM_TYPE_MEMREF_OUTPUT
+ *    params[1].memref.buffer: buffer to be filled with the version string
+ *    params[1].memref.size: length of the buffer
+ */
+#define TA_CMD_VERSION             6U
 
 /* Define the debug flag */
 #define DEBUG
