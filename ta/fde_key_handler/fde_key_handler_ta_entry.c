@@ -5,6 +5,7 @@
 
 #include <tee_internal_api.h>
 #include <trace.h>
+#include <string.h>
 
 #include "fde_key_handler_ta_type.h"
 #include "fde_key_handler_ta_handle.h"
@@ -16,6 +17,8 @@ static TEE_Result lock_ta( uint32_t param_types,
                            TEE_Param params[TEE_NUM_PARAMS]);
 static TEE_Result get_ta_lock( uint32_t param_types,
                                TEE_Param params[TEE_NUM_PARAMS]);
+static TEE_Result get_version(uint32_t paramTypes,
+                              TEE_Param params[TEE_NUM_PARAMS]);
 
 
 TEE_Result TA_CreateEntryPoint(void) {
@@ -66,6 +69,8 @@ TEE_Result TA_InvokeCommandEntryPoint( void __maybe_unused *session_context,
             return get_ta_lock(paramTypes, params);
         case TA_CMD_GEN_RANDOM:
             return generate_random(paramTypes, params);
+        case TA_CMD_VERSION:
+            return get_version(paramTypes, params);
         default:
             EMSG("fde_key_handler: Command ID %#"PRIx32" is not supported", cmd_id);
             return TEE_ERROR_NOT_SUPPORTED;
@@ -97,5 +102,32 @@ static TEE_Result get_ta_lock( uint32_t paramTypes,
         return TEE_ERROR_BAD_PARAMETERS;
 
     params[0].value.a = _ta_lock;
+    return TEE_SUCCESS;
+}
+
+static const char ta_version[] = "v0.0.1";
+
+static TEE_Result get_version(uint32_t types,
+                              TEE_Param params[TEE_NUM_PARAMS]) {
+    size_t version_length = 0;
+
+    DMSG("fde_key_handler: get_version");
+    if (types != TEE_PARAM_TYPES(TEE_PARAM_TYPE_MEMREF_OUTPUT,
+                                 TEE_PARAM_TYPE_NONE,
+                                 TEE_PARAM_TYPE_NONE,
+                                 TEE_PARAM_TYPE_NONE)) {
+        return TEE_ERROR_BAD_PARAMETERS;
+    }
+
+    // we don't care about the null terminator here, we're also going to send
+    // the size of the string
+    version_length = sizeof(ta_version) - 1;
+    if (!params[0].memref.buffer || params[0].memref.size < version_length) {
+        return TEE_ERROR_BAD_PARAMETERS;
+    }
+
+    memcpy(params[0].memref.buffer, ta_version, version_length);
+    params[0].memref.size = version_length;
+
     return TEE_SUCCESS;
 }
